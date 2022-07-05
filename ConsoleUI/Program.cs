@@ -32,15 +32,21 @@ namespace ConsoleUI
 
         private static void ProductTest(ProductManager productManager)
         {
-            foreach (var product in productManager.GetProductDetails())
+            var result = productManager.GetProductDetails();
+            
+            if (result.Success)
             {
-                Console.WriteLine(product.ProductName + " / " + product.CategoryName);
+                foreach (var product in result.Data)
+                {
+                    Console.WriteLine(product.ProductName + " / " + product.CategoryName);
+                }
+                
             }
-            Console.WriteLine("--------------------------------------------");
-            foreach (var product in productManager.GetAllByCategoryId(8))
+            else
             {
-                Console.WriteLine(product.ProductName);
+                Console.WriteLine(result.Message);
             }
+            
         }
     }
 }
