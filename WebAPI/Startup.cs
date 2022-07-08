@@ -36,8 +36,8 @@ namespace WebAPI
             //IoC container 
             //Autofac, Ninject, CastleWindsor, StructureMap, LightInject, DryInject --> IoC Container
             //AOP
-            services.AddSingleton<IProductService,ProductManager>(); //içinde data tutmuyorsak singleton kullanýrýz.
-            services.AddSingleton<IProductDal, EfProductDal>();
+            //services.AddSingleton<IProductService,ProductManager>(); //içinde data tutmuyorsak singleton kullanýrýz.
+            //services.AddSingleton<IProductDal, EfProductDal>();
 
             services.AddSwaggerGen(c =>
             {
