@@ -2,7 +2,7 @@
 
 ### About 
 
-    Developing a Back-end and Front-end application for Northwind database
+    Developing a Back-end and Front-end web application for Northwind database
     
 > I am still working on it
 
