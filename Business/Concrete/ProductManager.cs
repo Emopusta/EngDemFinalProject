@@ -30,18 +30,19 @@ namespace Business.Concrete
         //[RemoveCache]
         //[Transaction]
         //[Performance] .......
-        //AOP
+        //AOP   
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
             //ValidationTool.Validate(new ProductValidator(), product); attribute olarak yazıldı
                         
-            //validation
+            
 
             //business codes 
 
 
             _productDal.Add(product);
+
             return new SuccessResult(Messages.ProductAdded);
         }
 

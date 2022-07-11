@@ -2,6 +2,7 @@
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 using System;
+using System.Collections;
 
 namespace ConsoleUI
 {
@@ -12,12 +13,11 @@ namespace ConsoleUI
             //DTO == Data Transformation Object
             //IoC
             ProductManager productManager = new ProductManager(new EfProductDal());
+            
 
-
-
-
+      
             //CategoryTest();
-            ProductTest(productManager);
+            //ProductTest(productManager);
         }
 
         private static void CategoryTest()
@@ -48,5 +48,8 @@ namespace ConsoleUI
             }
             
         }
+        
     }
+   
+    
 }
