@@ -1,6 +1,9 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Business;
@@ -35,7 +38,10 @@ namespace Business.Concrete
         //[Transaction]
         //[Performance] .......
         //AOP   
+
+        [SecuredOperation("admin,editor")] //Claim
         [ValidationAspect(typeof(ProductValidator))]
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
         {
             //ValidationTool.Validate(new ProductValidator(), product); attribute olarak yazıldı
@@ -56,6 +62,13 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ProductAdded);
         }
 
+        [TransactionScopeAspect]
+        public IResult AddTransactionalTest(Product product)
+        {
+            throw new NotImplementedException();
+        }
+
+        [CacheAspect] // key, value pair
         public IDataResult<List<Product>> GetAll()
         {
             //if (DateTime.Now.Hour == 10)
@@ -69,7 +82,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.CategoryId == id),Messages.ProductsListed);
         }
-
+        [CacheAspect]
         public IDataResult<Product> GetById(int productId)
         {
             return new SuccessDataResult<Product>(_productDal.Get(p => p.ProductId == productId));
@@ -84,10 +97,17 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails());
         }
+
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Update(Product product)
         {
-            throw new NotImplementedException();
+            var result = _productDal.Get(p => p.ProductId == product.ProductId);
+            if (result != null)
+            {
+                _productDal.Update(product);
+                return new SuccessResult();
+            }
+            return new ErrorResult();
         }
 
 
